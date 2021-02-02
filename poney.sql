@@ -21,7 +21,7 @@ CREATE TABLE adherents (
     ville varchar(20),
     dateAdhesion date NOT NULL,
     
-    INDEX (nom)
+    INDEX (nom) -- Permet d'optimiser la recherche d'un adhérent par son nom
 );
 
 CREATE TABLE interets (
@@ -36,14 +36,15 @@ CREATE TABLE profils (
     `description` text NOT NULL,
     adherentID int NOT NULL,
 
-    CONSTRAINT adherentID_FK FOREIGN KEY (adherentID) REFERENCES adherents (adherentID)
+    CONSTRAINT adherentID_FK FOREIGN KEY (adherentID) REFERENCES adherents (adherentID) 
+        ON DELETE CASCADE -- Si l'adhérent référencé par la clé est supprimé, le profil le sera aussi 
 );
 
 CREATE TABLE interetAdherent (
     centreInteretID int NOT NULL,
     adherentID int NOT NULL,
 
-    PRIMARY KEY (centreInteretID, adherentID),
+    PRIMARY KEY (centreInteretID, adherentID), -- La clé primaire de la table interetAdherent est "composée" par un couple centreInteretID et adherentID
     CONSTRAINT interet_FK FOREIGN KEY (centreInteretID) REFERENCES interets (interetID),
     CONSTRAINT adherentID_interet_FK FOREIGN KEY (adherentID) REFERENCES adherents (adherentID)
 );
