@@ -1,0 +1,364 @@
+openapi: 3.0.2
+servers:
+  - url: /
+info:
+  description: |-
+    Ce fichier sert de spécification pour l'annuaire de l'association poney fringant. 
+
+    Liens utiles :
+    - [Un exemple : The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  version: 0.9.1
+  title: Poney Fringant- OpenAPI 3.0
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: adherent
+    description: Tout ce qui concernent les adhérents
+  - name: interet
+    description: Les informations concernant les centres d'intérêts
+  - name: profil
+    description: Les opréations concernant les profils utilisateurs
+  - name: user
+    description: Les opérations relative à la connexion et déconnexion
+paths:
+  /enregistrement.php:
+    post:
+      tags:
+        - user
+      summary: Create user
+      operationId: createUser
+      responses:
+        default:
+          description: successful operation
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Adherent'
+      description: Permet d'enregistrer un adhérent
+  /connected.php:
+    get:
+      tags:
+        - user
+      summary: Indique si l'utilisateur est connecté
+      responses:
+        '200':
+          description: L'utilisateur est bien connecté
+          content:
+            application/json:
+              schema:
+                properties:
+                  connected:
+                    type: boolean
+                  pseudo:
+                    type: string
+                  avatar:
+                    type: string
+                    example: upload/moi.png
+                    nullable: true
+                example: {connected: true, pseudo: 'toto', avatar: 'upload/moi.png'}
+        '400':
+          description: L'utilisateur n'est pas connecté
+          content:
+            application/json:
+              schema:
+                properties:
+                  connected:
+                    type: boolean
+                example: {connected: false}
+  /connexion.php:
+    post:
+      tags:
+        - user
+      summary: Connecte l'utilisateur au système
+      description: ''
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                pseudo:
+                  type: string 
+                  description: Le pseudo ou l'adresse mail de l'utilisateur
+                password:
+                  type: string
+                  description: Le mot de passe de l'utilisateur (non hashé)
+              required: 
+                - pseudo
+                - password
+      responses:
+        '200':
+          description: Connexion réussie
+          headers:
+            Set-Cookie:
+              description: Le cookie de session permettant d'identifier l'utilisateur sur le serveur
+              schema:
+                type: string
+                example: PHPSESSID=zaerztgey1236498; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Pseudo ou email ou mot de passe invalide
+  /deconnexion.php:
+    get:
+      tags:
+        - user
+      summary: Déconnecte la session en cours de l'utilisateur
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: Déconnexion réussie
+  /profil.php:
+    get:
+      tags:
+        - adherent
+      summary: Renvoi le profil de l'adherent
+      description: ''
+      security: 
+        - sessionCookieAuth: []
+      operationId: getUserProfil
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profil'
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - adherent
+      summary: Crée un profil pour l'adhérent
+      description: Crée le profil de l'adhérent en lui permettant d'uploader une photo, de se décrire avec une phrase d'accroche et texte plus détaillé
+      operationId: createuserProfil
+      security: 
+        - sessionCookieAuth: []
+      requestBody:
+        content: 
+          multipart/form-data: # Media type
+            schema:            # Request payload
+              type: object
+              properties:      # Request parts
+                titre:
+                  type: string
+                  example: I'm the best
+                photo:
+                  type: string
+                  example: mypict.png
+                  format: binary
+                  nullable: true
+                description:
+                  type: string
+                  description: Un texte descriptif de l'adhérent
+                  example: Je suis un formateur qui fait de la doc OpenAPI
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adherent'
+        '403':
+          description: Forbidden
+    put:
+      tags:
+        - adherent
+      summary: Met à jour le profil de l'adherent
+      description: This can only be done by the logged in user.
+      operationId: updateProfil
+      security: 
+        - sessionCookieAuth: [] 
+      responses:
+        default:
+          description: successful operation
+      requestBody:
+        description: Met à jour le profil de l'adherent connecté
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profil'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profil'
+    delete:
+      tags:
+        - adherent
+      summary: Supprime le profil de l'utilisateur connecté
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      security:
+        - sessionCookieAuth: []
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+components:
+  schemas:
+    Adherent:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+          nullable: true
+        prenom:
+          type: string
+          example: Toto
+        nom:
+          type: string
+          example: Toti
+        pseudo:
+          type: string
+          example: TotoDu13
+        password:
+          type: string
+          description: Mot de passe de l'utilisateur
+          example: password
+        email:
+          type: string
+          format: email
+          description: E-mail de l'utilisateur
+          example: toto@toti.com
+        numero:
+          type: string
+          pattern: '^ADH-2048-[0-9]+'
+          description: Numéro d'adhérent fournit par l'association
+          example: ADH-2048-0007
+        adresse1:
+          type: string
+          example: 15 rue des Lilas
+          nullable: true
+        codePostal:
+          type: integer
+          format: int32
+          example: 13013
+          nullable: true
+        ville:
+          type: string
+          nullable: true
+          example: Marseille
+        dateAdhesion:
+          type: string
+          format: date
+          nullable: false
+          example: '2020-12-31'
+    Interet:
+      properties:
+        interetID:
+          type: integer
+          format: int64
+          example: 100000
+        nom:
+          type: string
+          example: Littérature
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          xml:
+            wrapped: true
+            name: addresses
+    Profil:
+      properties:
+        profilID:
+          type: integer
+          format: int64
+          example: 1015
+        titre:
+          type: string
+          example: I'm the best
+        photo:
+          type: string
+          example: mypict.png
+          nullable: true
+        description:
+          type: string
+          description: Un texte descriptif de l'adhérent
+          example: Je suis un formateur qui fait de la doc OpenAPI
+    Membre:
+      properties:
+        prenom:
+          type: string
+          example: Toto
+        nom:
+          type: string
+          example: Toti
+        pseudo:
+          type: string
+          example: TotoDu13
+        dateAdhesion:
+          type: string
+          format: date
+          nullable: false
+          example: '2020-12-31'     
+        titre:
+          type: string
+          example: I'm the best
+          nullable: true
+        photo:
+          type: string
+          example: mypict.png
+          nullable: true
+        description:
+          type: string
+          description: Un texte descriptif de l'adhérent
+          example: Je suis un formateur qui fait de la doc OpenAPI
+          nullable: true
+        centresInterets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Interet"
+            nullable: true
+    ApiResponse:
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+      type: object
+  requestBodies:
+    adherent:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Adherent'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Adherent'
+      description: Un adherent à inscrire
+    InteretArry:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Interet'
+      description: Une liste d'interet
+  securitySchemes:
+    sessionCookieAuth:
+      type: apiKey
+      in: cookie
+      name: PHPSESSID
