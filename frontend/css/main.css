@@ -19,3 +19,24 @@ button {
     border: 0;font-weight: bold;
     border-radius: 3px;
 }
+
+.message {
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+.message.visible {
+    display: block;
+}
+.good {
+    background: rgb(98, 196, 98);
+    color: white;
+}
+
+.bad {
+    background: rgb(219, 74, 74);
+    color: white;
+}

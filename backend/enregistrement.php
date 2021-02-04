@@ -22,5 +22,12 @@ include('headers.php');
 // echo $_POST['codePostal'] . '\n';
 // echo $_POST['ville'] . '\n';
 // echo $_POST['dateAdhesion'] . '\n';
-
-echo "{'status': 'bof', 'description': 'cette fonctionnalité n\'est pas encore codée !!'}";
+if ($_POST['pseudo'] == 'gagné') {
+    // On pourrait rediriger sur le profil via le header fait pour ça (mais soucis CORS)
+    // global $frontUrl;
+    // header("location: $frontUrl/mon-profil.html");
+    echo '{"status": "ok", "description": "cette fonctionnalité n\'est pas encore codée !!"}';
+}
+else {
+    echo '{"status": "bof", "description": "cette fonctionnalité n\'est pas encore codée !!"}';
+}

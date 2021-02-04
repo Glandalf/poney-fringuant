@@ -1,5 +1,5 @@
 // Paramétrage de notre appli front 
-const backendRootURL = 'http://localhost:8001/';
+const backendRootURL = 'http://172.21.188.110:8001/';
 
 // Une fois la page HTML chargée, 
 // on veut surcharger le submit du formulaire
@@ -23,7 +23,27 @@ function postInscriptionAJAX() {
             body: data
         })
             .then(response => response.json())
-            .then(data => console.log('INSCRIPTION REUSSIE', data))
-            .catch(error => console.error('INSCRIPTION ECHOUEE', error))
+            .then(data => {
+                if(data.status === 'ok') {
+                    document.querySelector('.good.message').classList.add('visible');
+                    document.querySelector('.bad.message').classList.remove('visible');
+                    setTimeout(() => {
+                        window.location = 'mon-profil.html';
+                    }, 2000);
+                }
+                else {
+                    document.querySelector('.bad.message').classList.add('visible');
+                    document.querySelector('.good.message').classList.remove('visible');
+                    document.querySelector('.bad.message').innerText = data.description
+
+                }
+                
+            })
+            .catch(error => {
+                console.error('INSCRIPTION ECHOUEE', error)
+                document.querySelector('.bad.message').classList.add('visible');
+                document.querySelector('.good.message').classList.remove('visible');
+                document.querySelector('.bad.message').innerText = error
+            })
     })
 }
