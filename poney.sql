@@ -5,7 +5,7 @@ USE poney;
 
 -- Création des utilisateurs et affectation des droits
 CREATE USER IF NOT EXISTS 'toto'@'localhost' IDENTIFIED BY 'super secret';
-GRANT ALL ON DATABASE 'poney' TO 'toto'@'localhost';
+GRANT ALL ON DATABASE poney TO 'toto'@'localhost';
 
 -- Création des tables
 CREATE TABLE adherents (
