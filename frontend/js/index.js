@@ -35,7 +35,14 @@ function postInscriptionAJAX() {
                     document.querySelector('.bad.message').classList.add('visible');
                     document.querySelector('.good.message').classList.remove('visible');
                     document.querySelector('.bad.message').innerText = data.description
-
+                    
+                    // On peut vérifier ici un ou plusieurs code d'erreur (1062 = clé dupliquée)
+                    if (data.errorInfo[1] === 1062) {
+                        document.querySelector('.bad.message').innerText = 'Ce pseudo, numéro ou mail est déjà utilisé';
+                    }
+                    else {
+                        document.querySelector('.bad.message').innerText = 'Une erreur est survenue. Déso';
+                    }
                 }
                 
             })
@@ -43,7 +50,7 @@ function postInscriptionAJAX() {
                 console.error('INSCRIPTION ECHOUEE', error)
                 document.querySelector('.bad.message').classList.add('visible');
                 document.querySelector('.good.message').classList.remove('visible');
-                document.querySelector('.bad.message').innerText = error
+
             })
     })
 }

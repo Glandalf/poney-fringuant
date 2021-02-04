@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include('bdd.php');
 include('headers.php');
 /* 
@@ -22,12 +18,47 @@ include('headers.php');
 // echo $_POST['codePostal'] . '\n';
 // echo $_POST['ville'] . '\n';
 // echo $_POST['dateAdhesion'] . '\n';
-if ($_POST['pseudo'] == 'gagné') {
-    // On pourrait rediriger sur le profil via le header fait pour ça (mais soucis CORS)
-    // global $frontUrl;
-    // header("location: $frontUrl/mon-profil.html");
-    echo '{"status": "ok", "description": "cette fonctionnalité n\'est pas encore codée !!"}';
+
+
+// TODO: voir si c'est nécessaire pour utiliser la co créée dans bdd.php
+global $connexion;
+
+$id = $_POST['id'];
+$prenom = $_POST['prenom'];
+$nom = $_POST['nom'];
+$pseudo = $_POST['pseudo'];
+$password = $_POST['password'];
+$email = $_POST['email'];
+$numero = $_POST['numero'];
+$adresse1 = $_POST['adresse1'];
+$codePostal = $_POST['codePostal'];
+$ville = $_POST['ville'];
+$dateAdhesion = $_POST['dateAdhesion'];
+
+
+$rqt = "INSERT INTO adherents 
+    (prenom, nom, pseudo, `password`, email, numero, adresse1, codePostal, ville, dateAdhesion)
+    VALUES (:prenom, :nom, :pseudo, :password, :email, :numero, :adresse1, :codePostal, :ville, :dateAdhesion)";
+
+
+try {
+    $statement = $connexion->prepare($rqt);
+    $statement->bindParam(':prenom', $prenom);
+    $statement->bindParam(':nom', $nom);
+    $statement->bindParam(':pseudo', $pseudo);
+    $statement->bindParam(':password', $password);
+    $statement->bindParam(':email', $email);
+    $statement->bindParam(':numero', $numero);
+    $statement->bindParam(':adresse1', $adresse1);
+    $statement->bindParam(':codePostal', $codePostal);
+    $statement->bindParam(':ville', $ville);
+    $statement->bindParam(':dateAdhesion', $dateAdhesion);
+    $statement->execute();
+
+    // $id = $connexion->lastInsertId();
+    // echo '{"status": "ok", "description": "En cours. Votre identifiant est le ' . $id . '"}';
+    echo '{"status": "ok", "description": "Vous êtes bien inscrit !"}';
 }
-else {
-    echo '{"status": "bof", "description": "cette fonctionnalité n\'est pas encore codée !!"}';
+catch (Exception $exception) {
+    echo json_encode($exception);
 }
