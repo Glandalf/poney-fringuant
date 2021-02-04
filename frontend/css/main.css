@@ -1,0 +1,21 @@
+* {
+    font-family: sans-serif, sansserif;
+}
+
+input {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    width: 300px;
+}
+
+button {
+    padding: 8px 5px;
+    margin: 5px;
+    min-width: 200px;
+    background: rgb(93, 145, 223);
+    color: #eee;
+    border: 0;font-weight: bold;
+    border-radius: 3px;
+}
