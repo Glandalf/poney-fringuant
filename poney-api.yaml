@@ -117,6 +117,35 @@ paths:
       responses:
         default:
           description: Déconnexion réussie
+  /membres.php:
+    get:
+      tags:
+        - adherent
+      summary: Renvoi tous les membres, ou les membres recherchés
+      description: ''
+      operationId: getMemberList
+      security: 
+        - sessionCookieAuth: [] 
+      parameters:
+        - in: query
+          name: pseudo
+          schema:
+            type: string
+          description: le nom, le pseudo ou l'email de l'adhérent que l'on recherche
+          required: false
+      responses:
+        '200':
+          description: Affichage réussi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Membre"
+                  nullable: true
+        '400':
+          description: Pseudo ou email ou nom invalide
+
   /profil.php:
     get:
       tags:
@@ -269,13 +298,6 @@ components:
         nom:
           type: string
           example: Littérature
-        address:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-          xml:
-            wrapped: true
-            name: addresses
     Profil:
       properties:
         profilID:
