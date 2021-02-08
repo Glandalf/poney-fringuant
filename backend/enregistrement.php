@@ -55,6 +55,19 @@ try {
     $statement->bindParam(':dateAdhesion', $dateAdhesion);
     $statement->execute();
 
+    session_start();
+    $_SESSION['id'] = $connexion->lastInsertId();
+    $_SESSION['prenom'] = $prenom;
+    $_SESSION['nom'] = $nom;
+    $_SESSION['pseudo'] = $pseudo;
+    $_SESSION['password'] = $password;
+    $_SESSION['email'] = $email;
+    $_SESSION['numero'] = $numero;
+    $_SESSION['adresse1'] = $adresse1;
+    $_SESSION['codePostal'] = $codePostal;
+    $_SESSION['ville'] = $ville;
+    $_SESSION['dateAdhesion'] = $dateAdhesion;
+
     // $id = $connexion->lastInsertId();
     // echo '{"status": "ok", "description": "En cours. Votre identifiant est le ' . $id . '"}';
     echo '{"status": "ok", "description": "Vous êtes bien inscrit !"}';
