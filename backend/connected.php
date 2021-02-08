@@ -1,11 +1,12 @@
 <?php
-include('headers.php');
+    include('headers.php');
+    //if(session_status() != PHP_SESSION_ACTIVE) {
+        session_start(); 
+    //}
 
-session_start();
-$pseudo = $_SESSION['pseudo'];
-
-echo json_encode([
-    'connected' => 'true',
-    'pseudo' => $pseudo,
-    'avatar' => ""
-]);
+    if(!empty($_SESSION['pseudo'])) {
+        echo json_encode(["connected" => true, "pseudo" => $_SESSION['pseudo'], "avatar" => null]);
+    } else {
+        http_response_code(400);
+        echo json_encode(["connected" => false, "sessionID" => session_id(), "sessionName" => session_name(), "sessionObject" => $_SESSION]);
+    }

@@ -35,6 +35,7 @@ $codePostal = $_POST['codePostal'];
 $ville = $_POST['ville'];
 $dateAdhesion = $_POST['dateAdhesion'];
 
+$hash = password_hash($password, PASSWORD_DEFAULT); 
 
 $rqt = "INSERT INTO adherents 
     (prenom, nom, pseudo, `password`, email, numero, adresse1, codePostal, ville, dateAdhesion)
@@ -46,7 +47,7 @@ try {
     $statement->bindParam(':prenom', $prenom);
     $statement->bindParam(':nom', $nom);
     $statement->bindParam(':pseudo', $pseudo);
-    $statement->bindParam(':password', $password);
+    $statement->bindParam(':password', $hash);
     $statement->bindParam(':email', $email);
     $statement->bindParam(':numero', $numero);
     $statement->bindParam(':adresse1', $adresse1);
@@ -70,6 +71,12 @@ try {
 
     // $id = $connexion->lastInsertId();
     // echo '{"status": "ok", "description": "En cours. Votre identifiant est le ' . $id . '"}';
+    
+    // Gestion des sessions 
+    session_start(); 
+    $_SESSION['id'] = $connexion->lastInsertId(); 
+    $_SESSION['pseudo'] = $pseudo; 
+    
     echo '{"status": "ok", "description": "Vous êtes bien inscrit !"}';
 }
 catch (Exception $exception) {
