@@ -44,3 +44,22 @@ button {
 .grise {
     color:grey;
 }
+
+
+.data {
+    color:rgb(93, 145, 223);
+}
+
+
+
+.cols {
+    display: flex;
+}
+.small-col {
+    width: 20vw;
+    padding: 10px;
+}
+.big-col {
+    width: 70vw;
+    padding: 10px;
+}

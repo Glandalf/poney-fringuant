@@ -43,7 +43,11 @@
             }
         }
         
-        
+        // On supprime tous les interets de l'utilisateur courant, puis on les réinsère (ceux envoyés dans le formulaire)
+        // $stmt->prepare('DELETE FROM interetAdherent WHERE adherentID = :id');
+        // $stmt->bindParam(':id', $userId);
+        // $stmt->execute();
+
         $rqt = "INSERT INTO interetAdherent(centreInteretID, adherentID) VALUES (:interetid, :userid) " ;
         try {
             $stmt = $connexion->prepare($rqt); 

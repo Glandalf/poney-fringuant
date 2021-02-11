@@ -1,0 +1,15 @@
+#profil-photo {
+    background: #ddd;
+    width: 200px;
+    height: 200px;
+    border: 0;
+    border-radius: 50%;
+}
+#profil-titre {
+    font-size: 2em;
+}
+
+#profil-titre,
+#profil-description {
+    width: 600px;
+}

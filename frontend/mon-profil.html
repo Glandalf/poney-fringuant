@@ -4,12 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./js/config.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/mon-profil.css">
+    <!--<script src="js/profil.js" defer></script>-->
     <script src="./js/mon-profil.js"></script>
     <title>chalut</title>
-    <script src="js/profil.js" defer></script>
 </head>
 <body>
     <h1></h1>
-    <p></p>
+    <p>
+        Membre n° <span class="data numero"></span>
+        depuis le <span class="data date"></span>
+    </p>
+    <p>
+        <span class="data adresse"></span>
+    </p>
+
+
+
+
+    <form action="">
+        <h2>Mon profil</h2>
+        <div class="cols">
+            <div class="small-col">
+                <img id="profil-photo" src="" alt=""/><br/>
+                <input type="file" name="" id=""><br/>
+            </div>
+            <div class="big-col">
+                <input type="text" id="profil-titre"/><br/>
+                <textarea name="" id="profil-description" cols="30" rows="10"></textarea><br/>
+            </div>
+        </div>
+    </form>
 </body>
 </html>

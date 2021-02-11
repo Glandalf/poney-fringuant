@@ -1,6 +1,6 @@
 // Paramétrage de notre appli front 
-//const backendRootURL = 'http://172.21.188.110:8001/';
-const backendRootURL = 'http://back.poney.local/';
+// const backendRootURL = 'http://172.21.188.110:8001/';
+// const backendRootURL = 'http://back.poney.local/';
 
 // Une fois la page HTML chargée, 
 // on veut surcharger le submit du formulaire
