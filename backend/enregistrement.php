@@ -55,8 +55,9 @@ try {
     $statement->bindParam(':ville', $ville);
     $statement->bindParam(':dateAdhesion', $dateAdhesion);
     $statement->execute();
-
-    session_start();
+    if(session_status() != PHP_SESSION_ACTIVE) {
+        session_start(); 
+    }
     $_SESSION['id'] = $connexion->lastInsertId();
     $_SESSION['prenom'] = $prenom;
     $_SESSION['nom'] = $nom;
@@ -73,7 +74,7 @@ try {
     // echo '{"status": "ok", "description": "En cours. Votre identifiant est le ' . $id . '"}';
     
     // Gestion des sessions 
-    session_start(); 
+    // session_start(); 
     $_SESSION['id'] = $connexion->lastInsertId(); 
     $_SESSION['pseudo'] = $pseudo; 
     

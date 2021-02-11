@@ -4,10 +4,10 @@ function getCurrentUserInfos() {
     fetch(backendRootURL + 'connected.php', {
         credentials: "include"
     })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
             console.log(data);
-            // document.querySelector('h1').innerText = `Bonjour ${data.pseudo}`;
+            document.querySelector('h1').innerText = `Bonjour ${data.pseudo}`;
         })
 
 }
