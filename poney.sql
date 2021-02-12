@@ -5,7 +5,7 @@ USE poney;
 
 -- Création des utilisateurs et affectation des droits
 CREATE USER IF NOT EXISTS 'toto'@'localhost' IDENTIFIED BY 'super secret';
-GRANT ALL ON DATABASE poney TO 'toto'@'localhost';
+GRANT ALL ON poney.* TO 'toto'@'localhost';
 
 -- Création des tables
 CREATE TABLE adherents (
@@ -49,3 +49,6 @@ CREATE TABLE interetAdherent (
     CONSTRAINT adherentID_interet_FK FOREIGN KEY (adherentID) REFERENCES adherents (adherentID)
 );
 
+INSERT INTO interets(nom) VALUES ('Sport'), ('Musique'), ('Jeux vidéos'), ('Lecture'),  ('Informatique'),  ('Sorties'),  ('Cuisine'),  
+        ('Aviation'),  ('Mécanique'),  ('Licornes'),  ('Joaillerie'),  ('Agriculture'),  ('Cinéma'),  ('Politique'),  ('Couture'),  ('Animaux'),  
+        ('Science'),  ('Histoire'),  ('SVT'), ('Physique-Chimie'), ('Taxidermie'), ('Philatélie');
