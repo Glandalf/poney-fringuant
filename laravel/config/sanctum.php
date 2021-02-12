@@ -2,6 +2,9 @@
 
 return [
 
+
+    'prefix' => 'api', // Pour éviter les problèmes cors sur api https://laracasts.com/discuss/channels/laravel/sancton-cors-issue
+
     /*
     |--------------------------------------------------------------------------
     | Stateful Domains
