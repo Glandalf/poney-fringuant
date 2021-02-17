@@ -225,3 +225,37 @@ Généralement, une méthode lit ou modifie des attributs de l'objet (pour chang
 ### Table
 
 ### Champ
+
+### Identifiant et clé primaires
+
+### Clés étrangères. 
+
+## MVC 
+Architecture Modèle-Vue-Contrôleur. 
+
+### La vue 
+Correspond à l'interface.  
+
+### Le modèle 
+Composant métier. C'est lui possède la **logique** de gestion, et aussi l'accès et la manipulation de données. 
+
+### Le contrôleur
+Fait le lien entre la vue et les modèles. 
+
+Les frameworks PHP full stack tel que Larvel et Symfony ont une architecture MVC.  
+
+## Sécurité 
+Type de failles : 
+
+### XSS : 
+On injecte du code javascript malicieux dans des champs de formulaire destinés à être affichés (post de bloc ou un commentaire). À chaque fois que le post est affiché, le code malicieux est executé. 
+
+Pour l'éviter (en PHP) : on néttoie la saisie, à l'aide de la fonction `htmlSpecialChars($input)`. 
+
+### CSRF
+Cross-Site Request Forgery : pour faire simple, on vole le cookie d'une personne connectée, on peut donc se faire passer pour elle auprès du serveur. 
+
+### Injection SQL
+Mécanisme qui permet d'exectuter ddes requêtes non prévues par l'application. 
+
+On les évite avec des requêtes préparées. 
